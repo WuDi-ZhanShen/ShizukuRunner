@@ -17,8 +17,8 @@ android {
         applicationId "com.shizuku.uninstaller"
         minSdk 23
         targetSdk 32
-        versionCode 9
-        versionName "9"
+        versionCode 11
+        versionName "11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +36,6 @@ android {
 }
 
 dependencies {
-    implementation "dev.rikka.shizuku:api:12.1.0"
-    implementation "dev.rikka.shizuku:provider:12.1.0"
+    implementation "dev.rikka.shizuku:api:12.2.0"
+    implementation "dev.rikka.shizuku:provider:12.2.0"
 }
