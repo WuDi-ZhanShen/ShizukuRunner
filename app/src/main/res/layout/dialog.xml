@@ -48,5 +48,5 @@
         android:id="@+id/cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="降权至shell身份执行" />
+        android:text="将root权限降至shell" />
 </LinearLayout>

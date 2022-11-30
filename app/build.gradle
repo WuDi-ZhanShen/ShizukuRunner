@@ -17,8 +17,8 @@ android {
         applicationId "com.shizuku.uninstaller"
         minSdk 23
         targetSdk 32
-        versionCode 11
-        versionName "11"
+        versionCode 12
+        versionName "12"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

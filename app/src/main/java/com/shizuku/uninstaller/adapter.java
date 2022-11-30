@@ -23,25 +23,33 @@ public class adapter extends BaseAdapter {
     private final Context mContext;
 
     public adapter(Context mContext, int[] data) {
+
+        //设置adapter需要接收两个参数：上下文、int数组
         super();
         this.mContext = mContext;
         this.data = data;
     }
 
+
+    //固定的写法
     public int getCount() {
         return data.length;
     }
 
+    //固定的写法
     @Override
     public Object getItem(int position) {
         return null;
     }
 
+    //固定的写法
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+
+    //此函数定义每一个item的显示
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewHolder holder;
@@ -54,8 +62,12 @@ public class adapter extends BaseAdapter {
             holder.layout = convertView.findViewById(R.id.l);
             convertView.setTag(holder);
         } else {
+
+            //对于已经加载过的item就直接使用，不需要再次加载了，这就是ViewHolder的作用
             holder = (ViewHolder) convertView.getTag();
         }
+
+        //获得用户对于这个格子的设置
         SharedPreferences b = mContext.getSharedPreferences(String.valueOf(data[position]), 0);
         init(holder, b);
         return convertView;
@@ -70,9 +82,14 @@ public class adapter extends BaseAdapter {
 
     void init(ViewHolder holder, SharedPreferences b) {
 
+
+        //用户是否设置了命令内容
         boolean existc = b.getString("content", null) == null || b.getString("content", null).length() == 0;
+
+        //用户是否设置了命令名称
         boolean existn = b.getString("name", null) == null || b.getString("name", null).length() == 0;
 
+        //这个点击事件是点击编辑命令
         View.OnClickListener voc = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,10 +137,15 @@ public class adapter extends BaseAdapter {
             }
         };
 
+        //如果用户还没设置命令内容，则显示加号，否则显示运行符号
         holder.imageButton.setImageResource(existc ? R.drawable.plus : R.drawable.run);
+
+        //如果用户还没设置命令内容，则点击时将编辑命令，否则点击将运行命令
         holder.imageButton.setOnClickListener(!existc ? new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //这里会根据用户是否勾选了降权，来执行不同的命令
                 mContext.startActivity(new Intent(mContext, Exec.class).putExtra("content", b.getBoolean("shell", false) ? "whoami|grep root &> /dev/null && echo '提示:已将root降权至shell' 1>&2;" + mContext.getApplicationInfo().nativeLibraryDir + "/libchid.so 2000 " + b.getString("content", " ") + " || " + b.getString("content", " ") : b.getString("content", " ")));
             }
         } : voc);

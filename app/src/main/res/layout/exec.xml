@@ -15,7 +15,7 @@
             android:id="@+id/t2"
             android:layout_marginHorizontal="40dp"
             style="@style/t"
-            android:textColor="#00ba00"/>
+            android:textColor="#00aa00"/>
     </LinearLayout>
 
 

@@ -4,6 +4,10 @@
 
     <style name="t.2">
         <item name="android:textColor">@android:color/system_neutral2_100</item>
+        <item name="android:autoSizeMaxTextSize">15sp</item>
+        <item name="android:autoSizeMinTextSize">11sp</item>
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeStepGranularity">1sp</item>
     </style>
 
     <style name="l">
