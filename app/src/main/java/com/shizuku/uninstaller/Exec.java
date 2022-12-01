@@ -171,6 +171,7 @@ public class Exec extends Activity {
                     }
                     h1.interrupt();
                     h2.interrupt();
+                    h3.interrupt();
                 } catch (Exception ignored) {
                 }
             }
