@@ -1,6 +1,8 @@
 package com.shizuku.uninstaller;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class adapter extends BaseAdapter {
     private final int[] data;
@@ -51,16 +53,22 @@ public class adapter extends BaseAdapter {
 
     //此函数定义每一个item的显示
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewHolder holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.r, null);
+            convertView =  LayoutInflater.from(mContext).inflate(R.layout.r, null);
             holder = new ViewHolder();
             holder.texta = convertView.findViewById(R.id.a);
             holder.textb = convertView.findViewById(R.id.b);
             holder.imageButton = convertView.findViewById(R.id.c);
             holder.layout = convertView.findViewById(R.id.l);
             convertView.setTag(holder);
+            convertView.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                    Toast.makeText(mContext, "sdfsdf", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
         } else {
 
             //对于已经加载过的item就直接使用，不需要再次加载了，这就是ViewHolder的作用
@@ -98,25 +106,33 @@ public class adapter extends BaseAdapter {
                 cb.setChecked(b.getBoolean("shell", false));
                 final EditText editText = v.findViewById(R.id.e);
                 editText.setText(b.getString("content", null));
-                editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+                editText.setOnKeyListener(new View.OnKeyListener() {
                     @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                        if (keyEvent.getKeyCode()==KeyEvent.KEYCODE_ENTER&&keyEvent.getAction()==KeyEvent.ACTION_DOWN){
                             b.edit().putString("content", editText.getText().toString()).putBoolean("shell", cb.isChecked()).apply();
                             init(holder, b);
                         }
+
+
                         return false;
                     }
                 });
                 final EditText editText1 = v.findViewById(R.id.a);
                 editText1.setText(b.getString("name", null));
-                editText1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+                editText1.setOnKeyListener(new View.OnKeyListener() {
                     @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            b.edit().putString("name", editText1.getText().toString()).putBoolean("shell", cb.isChecked()).apply();
-                            init(holder, b);
-                        }
+                    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                            if (keyEvent.getKeyCode()==KeyEvent.KEYCODE_ENTER&&keyEvent.getAction()==KeyEvent.ACTION_DOWN){
+                                b.edit().putString("name", editText1.getText().toString()).putBoolean("shell", cb.isChecked()).apply();
+                                init(holder, b);
+                            }
+
+
                         return false;
                     }
                 });
@@ -153,6 +169,15 @@ public class adapter extends BaseAdapter {
         holder.texta.setTextColor(existc ? mContext.getResources().getColor(R.color.b) : mContext.getResources().getColor(R.color.a));
         holder.textb.setText(existc ? "空" : b.getString("content", "空"));
         holder.layout.setOnClickListener(voc);
+        holder.layout.setOnLongClickListener(existc ? null : new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ((ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("c", b.getString("content", "ls -l")));
+                Toast.makeText(mContext, "已复制该条命令至剪贴板:\n" + b.getString("content", "ls -l"), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
     }
 
 }

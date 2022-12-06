@@ -19,7 +19,6 @@
         android:paddingVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
         android:singleLine="true"
         android:hint="起个名字吧"
         />
@@ -34,11 +33,11 @@
     </TextView>
 
     <EditText
+        android:selectAllOnFocus="true"
         android:id="@+id/e"
         android:paddingVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
         android:singleLine="true"
         android:background="@null"
         android:hint="如：ls -l"/>

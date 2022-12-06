@@ -11,6 +11,8 @@ import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -60,7 +62,15 @@ public class Exec extends Activity {
         setContentView(R.layout.exec);
         t1 = findViewById(R.id.t1);
         t2 = findViewById(R.id.t2);
-
+t2.requestFocus();
+        t2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getKeyCode()==KeyEvent.KEYCODE_ENTER&&keyEvent.getAction()==KeyEvent.ACTION_DOWN)
+                    finish();
+                return false;
+            }
+        });
         //子线程执行命令，否则UI线程执行就会导致UI卡住动不了
         h1 = new Thread(new Runnable() {
             @Override
@@ -178,4 +188,6 @@ public class Exec extends Activity {
         }, 1000);
         super.onDestroy();
     }
+
+
 }

@@ -6,6 +6,7 @@
         <item name="android:autoSizeMinTextSize">11sp</item>
         <item name="android:autoSizeTextType">uniform</item>
         <item name="android:autoSizeStepGranularity">1sp</item>
+
     </style>
 
 </resources>

@@ -12,6 +12,7 @@
             android:gravity="center"/>
 
         <TextView
+            android:textIsSelectable="true"
             android:id="@+id/t2"
             android:layout_marginHorizontal="40dp"
             style="@style/t"
